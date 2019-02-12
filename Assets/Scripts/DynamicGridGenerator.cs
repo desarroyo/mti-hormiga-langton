@@ -15,9 +15,9 @@ public class DynamicGridGenerator : MonoBehaviour
 
 
     public Transform grid;
-		
-    private int rowSize;
-    private int columnSize;
+
+    public int rowSize;
+    public int columnSize;
 
     public class celdä
     {
@@ -40,8 +40,8 @@ public class DynamicGridGenerator : MonoBehaviour
 
         if (numOfRows.text == "" || numOfRows.text == null)
         {
-            rowSize = 40;
-            columnSize = 40;
+            rowSize = 60;
+            columnSize = 70;
             celdas = new Dictionary<string, GameObject>();
         }
     }
@@ -73,15 +73,17 @@ public class DynamicGridGenerator : MonoBehaviour
             {
 
                 cellInputField = (GameObject)Instantiate(whiteCell);
-                //cellInputField.GetComponent<Image>().color = Color.cyan;
+                
                     
                 
                 
                 cellInputField.transform.SetParent(rowParent);
                 cellInputField.GetComponent<RectTransform>().localScale = Vector3.one;
-                celdas.Add(rowIndex + ","+colIndex, cellInputField);
-                cellInputField.GetComponent<Celda>().x = rowIndex;
-                cellInputField.GetComponent<Celda>().y = colIndex;
+                celdas.Add(colIndex+ ","+ rowIndex, cellInputField);
+                cellInputField.GetComponent<Celda>().x = colIndex;
+                cellInputField.GetComponent<Celda>().y = rowIndex;
+                cellInputField.GetComponent<Celda>().estado = 0;
+                cellInputField.GetComponent<Image>().color = Color.white;
 
             }
         }
