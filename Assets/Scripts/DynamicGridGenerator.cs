@@ -12,6 +12,7 @@ public class DynamicGridGenerator : MonoBehaviour
     public GameObject whiteCell;
     public GameObject blackCell;
     public Sprite spriteAnt;
+    public Toggle mostrarCabezal;
 
 
     public Transform grid;
@@ -40,8 +41,8 @@ public class DynamicGridGenerator : MonoBehaviour
 
         if (numOfRows.text == "" || numOfRows.text == null)
         {
-            rowSize = 60;
-            columnSize = 70;
+            rowSize = 20;
+            columnSize = 20;
             celdas = new Dictionary<string, GameObject>();
         }
     }
@@ -83,7 +84,15 @@ public class DynamicGridGenerator : MonoBehaviour
                 cellInputField.GetComponent<Celda>().x = colIndex;
                 cellInputField.GetComponent<Celda>().y = rowIndex;
                 cellInputField.GetComponent<Celda>().estado = 0;
-                cellInputField.GetComponent<Image>().color = Color.white;
+                if (mostrarCabezal.isOn)
+                {
+                    cellInputField.GetComponent<Image>().sprite = Resources.Load<Sprite>("celda_"+ cellInputField.GetComponent<Celda>().estado);
+                }
+                else
+                {
+                    cellInputField.GetComponent<Image>().color = Color.white;
+                }
+                
 
             }
         }

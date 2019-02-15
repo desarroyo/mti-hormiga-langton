@@ -16,6 +16,7 @@ public class Events : MonoBehaviour, IPointerClickHandler
     private Celda celdaActual;
     GameObject objetoActual;
     public DynamicGridGenerator grid;
+    public Toggle mostrarCabezal;
     private int direccionActual = DOWN;
     private int direccionAnterior = DOWN;
 
@@ -40,13 +41,24 @@ public class Events : MonoBehaviour, IPointerClickHandler
 
     public void continuar()
     {
-        start = true;
+        if (start)
+        {
+            while (step(false))
+            {
+
+            }
+        }
+        else
+        {
+            start = true;
+        }
+        
     }
 
         public void randomAnt()
     {
 
-        GameObject gameObject =  grid.celdas[UnityEngine.Random.Range(0, grid.columnSize)+","+ UnityEngine.Random.Range(0, grid.rowSize)];
+        GameObject gameObject = grid.celdas[UnityEngine.Random.Range((grid.columnSize / 2) - (grid.columnSize / 9), (grid.columnSize / 2)) + "," + UnityEngine.Random.Range((grid.rowSize / 2) - (grid.rowSize / 9), (grid.rowSize / 2))];
 
         inicializaHormiga(true, gameObject);
     }
@@ -58,23 +70,41 @@ public class Events : MonoBehaviour, IPointerClickHandler
         Debug.Log(name + " Random!");
         // GameObject gameObject = grid.celdas[UnityEngine.Random.Range(0, grid.columnSize) + "," + UnityEngine.Random.Range(0, grid.rowSize)];
 
-        gameObject.GetComponent<Image>().color = Color.white;
+        
         // pointerEventData.pointerEnter.GetComponent<Celda>().estado = 1;
         gameObject.GetComponent<Celda>().hormiga = true;
         gameObject.GetComponent<Celda>().rotacion = ant_direccion;
-        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("ant_" + ant_direccion);
+
+        gameObject.GetComponent<Image>().color = Color.white;
+        if (mostrarCabezal.isOn)
+        {
+            gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("cabezal_" + gameObject.GetComponent<Celda>().estado + ant_direccion);
+        }
+        else
+        {
+            
+            gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("ant_" + gameObject.GetComponent<Celda>().estado  + ant_direccion);
+        }
+        
         direccionActual = ant_direccion;
         celdaActual = gameObject.GetComponent<Celda>();
         objetoActual = gameObject;
         start = iniciar;
     }
 
-    public void step(bool continuar)
+    public void stepButton(bool continuar)
+    {
+        step(continuar);
+    }
+
+    public bool step(bool continuar)
     {
 
         if(celdaActual == null)
         {
-
+            GameObject gameObject = grid.celdas[UnityEngine.Random.Range((grid.columnSize / 2)-(grid.columnSize / 9), (grid.columnSize/2) ) + "," + UnityEngine.Random.Range((grid.rowSize / 2)-(grid.rowSize / 9), (grid.rowSize/2))];
+            inicializaHormiga(false, gameObject);
+            return true;
         }
 
         start = continuar;
@@ -93,13 +123,29 @@ public class Events : MonoBehaviour, IPointerClickHandler
             if (objetoActual.GetComponent<Celda>().estado == 1)
             {
                 objetoActual.GetComponent<Celda>().estado = 0;
-                objetoActual.GetComponent<Image>().color = Color.white;
+                if (mostrarCabezal.isOn)
+                {
+                    objetoActual.GetComponent<Image>().sprite = Resources.Load<Sprite>("celda_" + objetoActual.GetComponent<Celda>().estado);
+                }
+                else
+                {
+                    objetoActual.GetComponent<Image>().color = Color.white;
+                }
+                
                 direccionActual = girarDerecha(direccionActual);
             }
             else
             {
                 objetoActual.GetComponent<Celda>().estado = 1;
-                objetoActual.GetComponent<Image>().color = Color.black;
+                if (mostrarCabezal.isOn)
+                {
+                    objetoActual.GetComponent<Image>().sprite = Resources.Load<Sprite>("celda_" + objetoActual.GetComponent<Celda>().estado);
+                }
+                else
+                {
+                    objetoActual.GetComponent<Image>().color = Color.black;
+                }
+                
                 direccionActual = girarIzquierda(direccionActual);
             }
 
@@ -126,12 +172,31 @@ public class Events : MonoBehaviour, IPointerClickHandler
             }catch(Exception ex)
             {
                 start = false;
-                return;
+                objetoActual.GetComponent<Image>().color = Color.white;
+                if (mostrarCabezal.isOn)
+                {
+                    objetoActual.GetComponent<Image>().sprite = Resources.Load<Sprite>("cabezal_" + objetoActual.GetComponent<Celda>().estado+ direccionActual);
+                }
+                else
+                {
+                    objetoActual.GetComponent<Image>().sprite = Resources.Load<Sprite>("ant_" + objetoActual.GetComponent<Celda>().estado + direccionActual);
+                }
+                
+                return start;
             }
 
 
+            c.GetComponent<Image>().color = Color.white;
 
-            c.GetComponent<Image>().sprite = Resources.Load<Sprite>("ant_" + direccionActual);
+            if (mostrarCabezal.isOn)
+            {
+                c.GetComponent<Image>().sprite = Resources.Load<Sprite>("cabezal_" + c.GetComponent<Celda>().estado + direccionActual);
+            }
+            else
+            {
+                c.GetComponent<Image>().sprite = Resources.Load<Sprite>("ant_" + c.GetComponent<Celda>().estado + direccionActual);
+            }
+            
             //c.GetComponent<Celda>().estado = 1;
             c.GetComponent<Celda>().hormiga = true;
             //c.GetComponent<Celda>().rotacion = direccionActual;
@@ -141,6 +206,11 @@ public class Events : MonoBehaviour, IPointerClickHandler
 
 
         }
+        else
+        {
+            return false;
+        }
+        return true;
     }
 
     void Update()

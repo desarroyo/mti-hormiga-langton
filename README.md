@@ -1,8 +1,29 @@
-# dynamic-grid-generator
-Dynamic Grid Generator
+# Hormiga de Langton
+### Unity 2d
+Más Información [Hormiga_Langton.PDF](http://vakito.com/mti/assets/Hormiga_Langton.pdf)
+Demo [Hormiga Langton](http://vakito.com/mti/hormiga/)
 
-The main goal of this tutorial is to give you an idea about Dynamic Grid Generator.
+La Hormiga de Langton consta de una serie de reglas muy sencillas, pero con un comportamiento complejo.
 
-You can find complete tutorial on [Dynamic Grid Generator](http://www.theappguruz.com/blog/dynamic-grid-generator).
+Las reglas nos dicen que un plano hay cuadros coloreados de forma diferente, ya sea blanco o negro. Identificamos arbitrariamente una casilla como la "hormiga". La hormiga puede viajar en cualquiera de las cuatro direcciones cardinales en cada paso que toma. La "hormiga" se mueve de acuerdo con las siguientes reglas:
+•	En un cuadro blanco, gira 90 ° a la derecha, invierte el color del cuadro, avanza una unidad.
+•	En un cuadro negro, gira 90 ° a la izquierda, invierte el color del cuadro, avanza una unidad
 
-This Tutorial has been presented by The App Guruz - One of the best [Mobile Game Development Company in India](http://www.theappguruz.com/3d-game-development/).
+[![N|Solid](http://vakito.com/mti/assets/ant_langton.PNG)](https://nodesource.com/products/nsolid)
+
+[![N|Solid](http://vakito.com/mti/assets/ant_tabla.PNG)](https://nodesource.com/products/nsolid)
+
+
+
+
+### Todos
+
+ - ...
+
+License
+----
+
+MIT
+
+
+**Free Software, Hell Yeah!**
